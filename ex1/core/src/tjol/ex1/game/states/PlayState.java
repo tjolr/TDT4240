@@ -7,39 +7,64 @@ import tjol.ex1.game.sprites.Helicopter;
 
 public class PlayState extends State{
 
-    private Texture background;
-    private Helicopter helicopter;
+    private final Texture background;
+    private final Helicopter[] helicopters;
 
     public PlayState(){
-        helicopter = new Helicopter(50,0);
-        // https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.cl%2Fpin%2F251568329170871133%2F&psig=AOvVaw2JybY7Z4An9lAmuW4ALiT-&ust=1611660801083000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMiXk63_tu4CFQAAAAAdAAAAABAb
+        int heliCount = 4;
+        helicopters = new Helicopter[heliCount];
+        helicopters[0] = new Helicopter(
+                (int)(Math.random() * Gdx.graphics.getWidth()),
+                (int)(Math.random() * Gdx.graphics.getHeight())
+        );
+        for (int i = 1; i < heliCount; i++) {
+            boolean collisionFree = false;
+            while (!collisionFree) {
+                helicopters[i] = new Helicopter(
+                        (int) (Math.random() * Gdx.graphics.getWidth()),
+                        (int) (Math.random() * Gdx.graphics.getHeight())
+                );
+                for (int j = 0; j < i; j++) {
+                    if (helicopters[i].getBounds().overlaps(helicopters[j].getBounds())) {
+                        break;
+                    }
+                }
+                collisionFree = true;
+            }
+        }
         background = new Texture("background.jpg");
     }
 
     @Override
     public void update(float deltaTime) {
-        helicopter.update(deltaTime);
+        for (int i = 0; i < helicopters.length; i++) {
+            for (int j = 0; j < helicopters.length; j++) {
+                if (j != i) {
+                    if (helicopters[i].getBounds().overlaps(helicopters[j].getBounds())) {
+                        helicopters[i].collision(helicopters[j].getBounds());
+                        System.out.println(i + " with " + j);
+                    }
+                }
+            }
+        }
+        for (Helicopter helicopter : helicopters) {
+            helicopter.update(deltaTime);
+        }
     }
 
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
         sb.draw(background, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        sb.draw(
-                helicopter.getTexture(),
-                helicopter.getX(),
-                helicopter.getY(),
-                helicopter.getBounds().width,
-                helicopter.getBounds().height,
-                0,
-                0,
-                (int)helicopter.getBounds().width,
-                (int)helicopter.getBounds().height,
-                helicopter.getFlipX(),
-                false
-        );
-
+        for (Helicopter helicopter : helicopters) {
+            sb.draw(
+                    helicopter.getAnimation().getKeyFrame(helicopter.getElapsedTime(), true),
+                    helicopter.getX(),
+                    helicopter.getY(),
+                    helicopter.getWidth(),
+                    helicopter.getBounds().getHeight()
+            );
+        }
         sb.end();
     }
 }
