@@ -7,12 +7,11 @@ import tjol.ex1.game.sprites.Helicopter;
 
 public class PlayState extends State{
 
-    private Texture background;
-    private Helicopter helicopter;
+    private final Texture background;
+    private final Helicopter helicopter;
 
     public PlayState(){
         helicopter = new Helicopter(50,0);
-        // https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.cl%2Fpin%2F251568329170871133%2F&psig=AOvVaw2JybY7Z4An9lAmuW4ALiT-&ust=1611660801083000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMiXk63_tu4CFQAAAAAdAAAAABAb
         background = new Texture("background.jpg");
     }
 

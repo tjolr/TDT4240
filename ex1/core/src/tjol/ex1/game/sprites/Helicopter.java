@@ -5,18 +5,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-
 public class Helicopter {
 
     private static final int SPEED = 5;
 
-    private Vector2 position;
-    private Vector2 velocity;
-    private Texture texture;
-    private Rectangle bounds;
+    private final Vector2 position;
+    private final Vector2 velocity;
+    private final Texture texture;
+    private final Rectangle bounds;
     private boolean flipX;
-
-
 
     public Helicopter(int xInitial, int yInitial) {
         position = new Vector2(xInitial, yInitial);
