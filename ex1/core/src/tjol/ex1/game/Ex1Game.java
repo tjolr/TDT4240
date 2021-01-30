@@ -15,8 +15,6 @@ public class Ex1Game extends ApplicationAdapter {
 	Texture img;
 	private PlayState playState;
 
-
-
 	@Override
 	public void create () {
 		sb = new SpriteBatch();

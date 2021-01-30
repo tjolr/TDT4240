@@ -7,16 +7,12 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public class Helicopter {
-
-
-
-    private static final int MOVEMENT_SPEED = 5;
     private static final int SPEED_FACTOR = 25;
 
-    private Vector2 position;
-    private Vector2 velocity;
-    private Texture texture;
-    private Rectangle bounds;
+    private final Vector2 position;
+    private final Vector2 velocity;
+    private final Texture texture;
+    private final Rectangle bounds;
     private boolean flipX;
 
 
@@ -40,9 +36,9 @@ public class Helicopter {
     public void update(float deltaTime) {
         position.add(velocity.x,velocity.y);
 
-        if (velocity.x > 0 && flipX == false) {
+        if (velocity.x > 0 && !flipX) {
             setFlipX(true);
-        } else if (velocity.x < 0 && flipX == true) {
+        } else if (velocity.x < 0 && flipX) {
             setFlipX(false);
         }
 
