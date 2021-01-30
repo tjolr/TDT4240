@@ -8,7 +8,10 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Helicopter {
 
-    private static final int SPEED = 5;
+
+
+    private static final int MOVEMENT_SPEED = 5;
+    private static final int SPEED_FACTOR = 25;
 
     private Vector2 position;
     private Vector2 velocity;
@@ -20,30 +23,44 @@ public class Helicopter {
 
     public Helicopter(int xInitial, int yInitial) {
         position = new Vector2(xInitial, yInitial);
-        velocity = new Vector2(SPEED,SPEED);
+        velocity = new Vector2(0, 0);
         texture = new Texture("attackhelicopter.PNG");
         bounds = new Rectangle(xInitial, yInitial, texture.getWidth(), texture.getHeight());
         flipX = true;
     }
 
+    public void move(float xTouchPixel, float yTouchPixel) {
+
+        float xVelocity = (xTouchPixel - position.x) / (Gdx.graphics.getWidth() / SPEED_FACTOR);
+        float yVelocity = (yTouchPixel - position.y)/ (Gdx.graphics.getHeight() / SPEED_FACTOR);
+
+        velocity.set(xVelocity, yVelocity);
+    }
+
     public void update(float deltaTime) {
+        position.add(velocity.x,velocity.y);
+
+        if (velocity.x > 0 && flipX == false) {
+            setFlipX(true);
+        } else if (velocity.x < 0 && flipX == true) {
+            setFlipX(false);
+        }
 
         if (position.x < 0){
-            velocity.set(SPEED, velocity.y);
+            position.x = 0;
             setFlipX(true);
         }
         if (position.x + bounds.getWidth() > Gdx.graphics.getWidth()) {
-            velocity.set(-SPEED,velocity.y);
+            position.x = Gdx.graphics.getWidth()-bounds.getWidth();
             setFlipX(false);
         }
         if (position.y < 0) {
-            velocity.set(velocity.x, SPEED);
+            position.y = 0;
         }
         if (position.y + bounds.getHeight() > Gdx.graphics.getHeight()) {
-            velocity.set(velocity.x,-SPEED);
+            position.y = Gdx.graphics.getHeight() - bounds.getHeight();
         }
 
-        position.add(velocity.x,velocity.y);
         updateBounds();
     }
 
@@ -75,4 +92,7 @@ public class Helicopter {
     public boolean getFlipX() {
         return this.flipX;
     }
+
+
+
 }
