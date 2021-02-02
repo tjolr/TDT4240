@@ -9,6 +9,9 @@ import tjol.pong.game.sprites.Ball;
 import tjol.pong.game.sprites.Paddle;
 
 public class PlayState extends State{
+    // PlayState is implemented as a Singleton class
+
+    private static final PlayState playState = new PlayState();
 
     private static final int PADDLE_WIDTH = 15;
     private static final int PADDLE_HEIGHT = 80;
@@ -32,13 +35,18 @@ public class PlayState extends State{
         BOTTOM
     }
 
-    public PlayState() {
+    // Private constructor to prevent external construction
+    private PlayState() {
         leftPaddle = new Paddle(PADDLE_OFFSET, (Gdx.graphics.getHeight() / 2) - (PADDLE_HEIGHT / 2), PADDLE_WIDTH, PADDLE_HEIGHT);
         rightPaddle = new Paddle(Gdx.graphics.getWidth()-PADDLE_OFFSET-PADDLE_WIDTH, (Gdx.graphics.getHeight() / 2) - (PADDLE_HEIGHT / 2), PADDLE_WIDTH, PADDLE_HEIGHT);
         shapeRenderer = new ShapeRenderer();
         ball = new Ball(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, BALL_RADIUS);
         font = new BitmapFont();
         gameover = false;
+    }
+
+    public static PlayState getInstance() {
+        return playState;
     }
 
     @Override
