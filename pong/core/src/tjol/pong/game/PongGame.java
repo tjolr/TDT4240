@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import tjol.pong.game.states.PlayState;
+import tjol.pong.game.controller.GameController;
 
 public class PongGame extends ApplicationAdapter {
 	// PongGame is implemented as a Singleton class
@@ -13,10 +13,10 @@ public class PongGame extends ApplicationAdapter {
 	private static final PongGame pongGame = new PongGame();
 
 	// Private constructor to prevent external construction
-	private PongGame(){};
+	private PongGame() {};
 
 	SpriteBatch sb;
-	private PlayState playState;
+	private GameController gameController;
 
 	public static PongGame getInstance() {
 		return pongGame;
@@ -25,7 +25,7 @@ public class PongGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		sb = new SpriteBatch();
-		playState = PlayState.getInstance();
+		gameController = new GameController();
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class PongGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		playState.update(Gdx.graphics.getDeltaTime());
-		playState.render(sb);
+		gameController.update();
+		gameController.render(sb);
 	}
 	
 	@Override
